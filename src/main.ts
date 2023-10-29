@@ -15,3 +15,5 @@ const main = new Main();
 main.renderer.shadowMap.enabled = true;
 main.renderer.shadowMap.type = BasicShadowMap;
 main.createView({ scene, camera: scene.camera });
+
+window.main = main;
