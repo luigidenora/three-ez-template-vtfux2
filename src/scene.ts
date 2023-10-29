@@ -3,7 +3,7 @@ import { AmbientLight, DirectionalLight, Scene as SceneBase, Vector3 } from 'thr
 import { Grid } from './grid';
 
 export class Scene extends SceneBase {
-  public camera = new OrthographicCameraAuto(15);
+  public camera = new OrthographicCameraAuto(25);
 
   constructor() {
     super();
@@ -13,7 +13,7 @@ export class Scene extends SceneBase {
 
     this.add(ambientLight, directionalLight, new Grid());
 
-    this.camera.position.setFromSphericalCoords(10, Math.PI / 3, Math.PI / 4);
+    this.camera.position.setFromSphericalCoords(40, /*Math.PI / 3*/ Math.PI / 3, /*Math.PI / 4*/ Math.PI / 4);
     this.camera.lookAt(origin);
 
     directionalLight.matrixAutoUpdate = false;
