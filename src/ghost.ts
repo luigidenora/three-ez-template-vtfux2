@@ -9,7 +9,8 @@ export class Ghost extends Mesh {
 
   constructor(public row: number, public life: number) {
     super();
-    this.hitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
+    this.hitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.hitSoundBuffer);
+    this.hitSound.setVolume(0.2);
     this.interceptByRaycaster = false;
     this.scale.multiplyScalar(5);
     this.load();
@@ -39,6 +40,3 @@ export class Ghost extends Mesh {
       .start();
   }
 }
-
-// vittoria
-// miglioramenti

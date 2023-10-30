@@ -9,6 +9,8 @@ export class Pumpkin extends Group {
   declare scene: Scene;
   public boundingBox = new Box3();
   public spitSound: Audio;
+  public punchSound: Audio;
+  public spawnSound: Audio;
   private _shootAction: AnimationAction;
   private _bulletOffset = new Vector3(-0.5, 0.2, -0.2);
   private _shootDelay = 2;
@@ -21,6 +23,12 @@ export class Pumpkin extends Group {
     this.scale.multiplyScalar(5);
     this.load();
     this.spitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
+    this.punchSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.punchSoundBuffer);
+    this.spawnSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spawnSoundBuffer);
+    this.spitSound.setVolume(0.8);
+    this.punchSound.setVolume(0.2);
+    this.spawnSound.setVolume(0.03);
+    this.spawnSound.play();
     this.interceptByRaycaster = false;
   }
 
@@ -63,6 +71,7 @@ export class Pumpkin extends Group {
   }
 
   public die(): void {
+    this.punchSound.play();
     this._isDead = true;
     this.tween()
       .by(1000, { rotation: new Euler(0, Math.PI * 4, 0), scale: -5 }, { easing: 'easeInBack' })
