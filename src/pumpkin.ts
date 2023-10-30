@@ -1,27 +1,41 @@
-import { AnimationAction, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3 } from 'three';
+import { AnimationAction, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3 } from 'three';
 import { Bullet } from './bullet';
 import { GLTFUtils, Models } from './utils/gltfUtils';
+import { Tile } from './tile';
+import { Scene } from './scene';
 
 export class Pumpkin extends Group {
-  private _action: AnimationAction;
+  declare scene: Scene;
+  private _shootAction: AnimationAction;
   private _bulletOffset = new Vector3(-0.5, 0.2, -0.2);
+  private _shootDelay = 2;
 
-  constructor(private _isInput = false) {
+  private _elapsedTime = 0;
+  private _isDead = false;
+  private _tile: Tile;
+
+  constructor(private _isInput = false, tile?: Tile) {
     super();
     this.rotateY(Math.PI / 2);
     this.scale.multiplyScalar(5);
     this.load();
-    this.interceptByRaycaster = !_isInput;
+    this.interceptByRaycaster = false;
+    this._tile = tile;
   }
 
   private load(): void {
     const result = GLTFUtils.get(Models.pumpkin, true);
-    this.add(result.group);
-    this._action = result.actions[2];
+    this.add(result.group.children[0]);
+    this._shootAction = result.actions[2];
+    this._shootAction.repetitions = 1;
 
     if (!this._isInput) {
-      setInterval(() => this.shoot(), 3000);
       this.on('animate', (e) => {
+        this._elapsedTime += e.delta;
+        if(this._elapsedTime > this._shootDelay) {
+          this.shoot();
+          this._elapsedTime -= this._shootDelay;
+        }
         result.mixer.update(e.delta);
       });
     } else {
@@ -35,8 +49,25 @@ export class Pumpkin extends Group {
   }
 
   private shoot(): void {
-    this._action.stop();
-    this._action.play();
-    this.scene.add(new Bullet(this.position.clone().add(this._bulletOffset)));
+    this._shootAction.stop();
+    this._shootAction.play();
+    this.scene.shoot(this.position.clone().add(this._bulletOffset), this._tile.row);
+  }
+
+  public setMaterialVisibility(value: boolean): void {
+    const material1 = (this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial;
+    const material2 = (this.children[0].children[1] as SkinnedMesh).material as MeshPhysicalMaterial;
+    material1.opacity = material2.opacity = value ? 0.3 : 0;
+  }
+
+  public die(): void {
+    this._isDead = true;
+    this.tween()
+      .by(1000, { rotation: new Euler(0, Math.PI * 4, 0), scale: -5 }, { easing: 'easeInBack' })
+      .call(() => {
+        this.removeFromParent();
+        this._tile.isBusy = false;
+      })
+      .start();
   }
 }

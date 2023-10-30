@@ -1,9 +1,9 @@
-import { Light, PointLight } from 'three';
+import { DirectionalLight, Light } from 'three';
 
 export class LightUtils {
     
   public static applyShadow(light: Light, size: number) {
-    if (light instanceof PointLight) {
+    if (light instanceof DirectionalLight) {
       light.castShadow = true;
       light.shadow.mapSize.width = size;
       light.shadow.mapSize.height = size;

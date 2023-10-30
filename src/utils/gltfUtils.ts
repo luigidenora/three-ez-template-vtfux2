@@ -2,9 +2,10 @@ import { AnimationAction, AnimationClip, AnimationMixer, BufferGeometry, Mesh, M
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
-export enum Models {
+export enum Models { // use only string
   pumpkin = './models/pumpkin.glb',
   ghost = './models/gost.glb',
+  island = './models/island.glb'
 }
 
 export interface GLTFAnimations {
@@ -27,7 +28,7 @@ export class GLTFUtils {
 
   public static async preload(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const promises = [this.loadModel(Models.pumpkin), this.loadModel(Models.ghost)];
+      const promises = [this.loadModel(Models.pumpkin), this.loadModel(Models.ghost), this.loadModel(Models.island)];
       Promise.all(promises).then(() => resolve());
     });
   }
@@ -37,11 +38,13 @@ export class GLTFUtils {
       this.loader.load(
         model,
         (gltf) => {
-          const group = gltf.scene.children[0];
+          const group = gltf.scene;
 
           group.traverse((obj) => {
             obj.castShadow = true;
             obj.receiveShadow = true;
+            (obj as Mesh).geometry?.computeBoundingBox();
+            console.l
           });
 
           this.cache[model] = { group, animations: gltf.animations, firstUse: true };
@@ -60,7 +63,6 @@ export class GLTFUtils {
 
     for (const animation of animations) {
       const action = mixer.clipAction(animation);
-      action.repetitions = 1;
       actions.push(action);
     }
 

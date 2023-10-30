@@ -1,32 +1,44 @@
-import { Mesh } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { Euler, Mesh, Box3 } from 'three';
 import { GLTFUtils, Models } from './utils/gltfUtils';
 
-const loader = new GLTFLoader();
-
 export class Ghost extends Mesh {
-  constructor() {
+  public boundingBox = new Box3();
+  public isDead = false;
+
+  constructor(public row: number) {
     super();
+    this.interceptByRaycaster = false;
     this.scale.multiplyScalar(5);
     this.load();
+    this.translateX(5);
+    this.translateZ(0.5 + row - 5);
+    // this.position.z = row * 10;
   }
 
   private load(): void {
-    const obj = GLTFUtils.get(Models.ghost);
-    this.add(obj.group);
+    const obj = GLTFUtils.get(Models.ghost, true);
+    this.add(obj.group.children[0]);
     !this.geometry.boundingBox && this.geometry.computeBoundingBox();
     obj.actions[0].play();
 
     this.on('animate', (e) => {
-      if (this.enabled) obj.mixer.update(e.delta);
-      this.translateX(-e.delta);
+      obj.mixer.update(e.delta);
+      !this.isDead && this.translateX(-e.delta);
+      this.boundingBox.setFromObject(this);
     });
+  }
+
+  public die(): void {
+    this.isDead = true;
+    this.tween()
+      .by(1000, { rotation: new Euler(0, Math.PI * 4, 0), scale: -5 }, { easing: 'easeInBack' })
+      .call(() => {
+        this.removeFromParent();
+      })
+      .start();
   }
 }
 
-// mettere ombre
-// fix trasparenza e add se già presente
-// collisioni
-// spawn
+// spawn e vittoria
 // miglioramenti
 // kill delle zucche

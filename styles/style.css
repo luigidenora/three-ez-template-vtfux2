@@ -1,0 +1,22 @@
+@font-face {
+  font-family: creepster;
+  src: url(creepster.regular.ttf);
+}
+@font-face {
+  font-family: HalloWitchZ;
+  src: url(HalloWitchZ.otf);
+}
+
+h1.title {
+  font-family: HalloWitchZ;
+  background-image: linear-gradient(orange, red);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  mix-blend-mode: color;
+}
+
+
+button {
+    
+}

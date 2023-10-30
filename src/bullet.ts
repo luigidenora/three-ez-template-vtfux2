@@ -1,14 +1,14 @@
 import { Mesh, MeshLambertMaterial, SphereGeometry, Vector3 } from 'three';
 
+const geometry = new SphereGeometry(0.1);
+const material = new MeshLambertMaterial({ color: 'green' });
+
 export class Bullet extends Mesh {
-  private direction = new Vector3(1, 0, 0);
+  public static direction = new Vector3(1, 0, 0);
 
-  constructor(origin: Vector3) {
-    super(new SphereGeometry(0.1), new MeshLambertMaterial({ color: 'orange' }));
+  constructor(origin: Vector3, public row: number) {
+    super(geometry, material);
     this.position.copy(origin);
-
-    this.on('animate', (e) => {
-        this.position.add(this.direction.setLength(e.delta * 5));
-    });
+    // this.castShadow = true;
   }
 }
