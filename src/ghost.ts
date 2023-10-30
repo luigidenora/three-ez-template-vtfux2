@@ -12,7 +12,7 @@ export class Ghost extends Mesh {
   }
 
   private load(): void {
-    GLTFUtils.load('./models/gostm1.glb').then((obj) => {
+    GLTFUtils.load('./models/gost.glb').then((obj) => {
       this.add(obj.group);
       this.geometry.computeBoundingBox(); // cache it
       // this._action = obj.action;
