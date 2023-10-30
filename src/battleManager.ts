@@ -59,7 +59,7 @@ export class BattleManager {
 
   private computeBulletCollision(delta: number): void {
     // this should be opt but no time :<
-    this._direction.copy(Bullet.direction).setLength(delta * 2);
+    this._direction.copy(Bullet.direction).setLength(delta * 5);
     this._direction2.copy(this._direction).multiplyScalar(-1);
 
     for (let i = this.bullets.length - 1; i >= 0; i--) {
@@ -86,24 +86,23 @@ export class BattleManager {
 
   private computeGhostCollision(delta: number): void {
     // this should be opt but no time :<
-    //   for (let i = 0; i >= 0; i--) {
-    //     const bullet = this.bullets[i];
-    //     const newPosition = this._temp.copy(bullet.position).add(this._direction);
-    //     this._ray.set(newPosition, this._direction2);
-    //     let collisionIndex = this.checkBulletGhostCollision(bullet);
-    //     if (collisionIndex !== undefined) {
-    //       this.removeBullet(i);
-    //       const ghost = this.ghosts[bullet.row][collisionIndex];
-    //       if (--ghost.life === 0) {
-    //         this.ghosts[bullet.row][collisionIndex].die();
-    //         this.removeGhost(bullet.row, collisionIndex);
-    //       }
-    //     } else {
-    //       bullet.position.copy(newPosition);
-    //       if (bullet.position.x > 5) {
-    //         this.removeBullet(i);
-    //       }
-    //     }
-    //   }
+      // for (let i = 0; i < this.ghosts.length; i++) {
+      //   const ghostRow = this.ghosts[i];
+       
+      //   let collisionIndex = this.checkBulletGhostCollision(bullet);
+      //   if (collisionIndex !== undefined) {
+      //     this.removeBullet(i);
+      //     const ghost = this.ghosts[bullet.row][collisionIndex];
+      //     if (--ghost.life === 0) {
+      //       this.ghosts[bullet.row][collisionIndex].die();
+      //       this.removeGhost(bullet.row, collisionIndex);
+      //     }
+      //   } else {
+      //     bullet.position.copy(newPosition);
+      //     if (bullet.position.x > 5) {
+      //       this.removeBullet(i);
+      //     }
+      //   }
+      // }
   }
 }
