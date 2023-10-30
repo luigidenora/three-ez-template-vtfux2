@@ -15,4 +15,4 @@ GLTFUtils.preload().then(() => {
 });
 
 
-interface.init
+// interface.init
