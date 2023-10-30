@@ -21,7 +21,7 @@ export class AudioUtils {
       this.punchSoundBuffer = buffer;
     });
 
-    this.audioLoader.load('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d8c6f0b106.mp3?filename=teleport-14639.mp3', (buffer) => {
+    this.audioLoader.load('https://cdn.pixabay.com/download/audio/2022/03/15/audio_ef47301072.mp3?filename=thump-1-79982.mp3', (buffer) => {
       this.spawnSoundBuffer = buffer;
     });
   }

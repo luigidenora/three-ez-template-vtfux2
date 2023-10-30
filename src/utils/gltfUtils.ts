@@ -4,7 +4,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 export enum Models { // use only string
   pumpkin = './models/pumpkin.glb',
-  ghost = './models/gost.glb',
+  ghost = './models/ghost.glb',
   island = './models/island.glb',
 }
 

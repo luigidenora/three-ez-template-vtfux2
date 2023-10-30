@@ -1,5 +1,5 @@
 import { OrthographicCameraAuto } from '@three.ez/main';
-import { AmbientLight, DirectionalLight, PointLight, PointLightHelper, Scene as SceneBase, SpotLight, Vector3 } from 'three';
+import { AmbientLight, Color, DirectionalLight, DirectionalLightHelper, Fog, Object3D, PointLight, PointLightHelper, Scene as SceneBase, SpotLight, Vector3 } from 'three';
 import { Grid } from './grid';
 import { Island } from './island';
 import { Ghost } from './ghost';
@@ -12,23 +12,25 @@ export class Scene extends SceneBase {
   public camera = new OrthographicCameraAuto(25);
   public battleManager = new BattleManager(this);
   public grid = new Grid();
+  public island = new Island();
 
   constructor() {
     super();
     const origin = new Vector3();
-    const ambientLight = new AmbientLight(0x0A009E, 0.1);
-    const spotLight = new SpotLight(0xa41ec9, 50, 100, Math.PI, 1);
-    spotLight.translateY(3);
-    const pointLight1 = new PointLight(0x0A009E, 100, 200);
-    pointLight1.translateY(5).translateZ(3);
-    const pointLight2 = new PointLight(0x0A009E, 100, 200);
-    pointLight2.translateY(5).translateZ(-3);
-    const pointLight3 = new PointLight(0x0A009E, 100, 200);
-    pointLight3.translateY(5).translateZ(-3).translateX(3);
 
-    this.add(ambientLight, spotLight, pointLight1, pointLight2, pointLight3, this.grid, new Island());
-    
-    // this.camera.add(this.audioListener);
+    this.background = new Color(0x092409);
+
+    const ambientLight = new AmbientLight('white', 0.3);
+    const dirLight = new DirectionalLight(0x0e23ff, 2);
+    const dirLight2 = new DirectionalLight(0xffb6a9, 2);
+    dirLight.position.setFromSphericalCoords(100, Math.PI / 3, 0);
+    dirLight2.position.setFromSphericalCoords(100, Math.PI / 3, Math.PI / 2);
+
+    const helper = new DirectionalLightHelper(dirLight2);
+    this.add(helper);
+
+    this.add(ambientLight, dirLight, dirLight2, this.grid, this.island);
+
     this.camera.position.setFromSphericalCoords(40, Math.PI / 3, Math.PI / 4);
     this.camera.lookAt(origin);
 
@@ -38,7 +40,6 @@ export class Scene extends SceneBase {
     this.on('afteranimate', (e) => {
       this.battleManager.update(e.delta);
     });
-
   }
 
   public addPumpkin(tile: Tile): void {
@@ -56,7 +57,6 @@ export class Scene extends SceneBase {
   }
 
   public shoot(origin: Vector3, row: number): void {
-    // this.spitSound.play();
     const bullet = new Bullet(origin, row);
     this.add(bullet);
     this.battleManager.bullets.push(bullet);

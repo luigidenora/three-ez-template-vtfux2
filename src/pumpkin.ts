@@ -27,7 +27,7 @@ export class Pumpkin extends Group {
     this.spawnSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spawnSoundBuffer);
     this.spitSound.setVolume(0.8);
     this.punchSound.setVolume(0.2);
-    this.spawnSound.setVolume(0.03);
+    this.spawnSound.setVolume(0.5);
     this.spawnSound.play();
     this.interceptByRaycaster = false;
   }
