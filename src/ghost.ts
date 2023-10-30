@@ -1,6 +1,6 @@
 import { Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { GLTFUtils } from './utils/gltfUtils';
+import { GLTFUtils, Models } from './utils/gltfUtils';
 
 const loader = new GLTFLoader();
 
@@ -12,14 +12,21 @@ export class Ghost extends Mesh {
   }
 
   private load(): void {
-    GLTFUtils.load('./models/gost.glb').then((obj) => {
-      this.add(obj.group);
-      this.geometry.computeBoundingBox(); // cache it
-      // this._action = obj.action;
+    const obj = GLTFUtils.get(Models.ghost);
+    this.add(obj.group);
+    !this.geometry.boundingBox && this.geometry.computeBoundingBox();
+    obj.actions[0].play();
 
-      // this.on('animate', (e) => {
-      //   if (this.enabled) obj.mixer.update(e.delta);
-      // });
+    this.on('animate', (e) => {
+      if (this.enabled) obj.mixer.update(e.delta);
+      this.translateX(-e.delta);
     });
   }
 }
+
+// mettere ombre
+// fix trasparenza e add se già presente
+// collisioni
+// spawn
+// miglioramenti
+// kill delle zucche

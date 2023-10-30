@@ -1,4 +1,4 @@
-import { Group, Mesh, MeshBasicMaterial, PointLight, SphereGeometry } from 'three';
+import { Group, Mesh, MeshBasicMaterial, MeshToonMaterial, PointLight, SphereGeometry } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FoliageMaterial } from './materials/foliage-material';
 
@@ -18,7 +18,7 @@ export class Island extends Group {
   }
 
   private load(): void {
-    loader.load('./models/island-alberi.glb', (gltf) => {
+    loader.load('./models/island.glb', (gltf) => {
       const scene = gltf.scene;
       this.add(scene);
       scene.traverse((obj) => {
@@ -26,6 +26,8 @@ export class Island extends Group {
         if (obj instanceof Mesh) {
           if (obj.name.includes('Foliage')) {
             obj.material = new FoliageMaterial(/* this.sunLight.position */);
+          }else {
+            // obj.material = new MeshToonMaterial({color:obj.material.color})
           }
         }
       });

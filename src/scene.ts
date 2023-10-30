@@ -9,7 +9,7 @@ export class Scene extends SceneBase {
     super();
     const origin = new Vector3();
     const ambientLight = new AmbientLight();
-    const directionalLight = new DirectionalLight();
+    const directionalLight = new DirectionalLight('white', 10);
 
     this.add(ambientLight, directionalLight, new Grid());
 

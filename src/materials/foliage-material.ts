@@ -59,14 +59,14 @@ export class FoliageMaterial extends ShaderMaterial {
       uniforms: {
         colorMap: {
           value: [
-        /*  new Color("#ffc971"), */  /* new Color("#FADC7A"), */new Color("#f1ae1c"),
-        /*  new Color("#ffb627"), */  /* new Color("#F4AF28"), */new Color("#dd901b"),
-        /*  new Color("#ff9505"), */  /* new Color("#C46A08"), */new Color("#c16c19"),
-        /*  new Color("#cc5803"), */  /* new Color("#832E04"), */new Color("#81502c"),
+          new Color("#d0a114"),
+          new Color("#b48b11"),
+          new Color("#907a36"),
+          new Color("#4d3900"),
           ],
         },
         brightnessThresholds: {
-          value: [0.9, 0.45, 0.001],
+          value: [0.9, 0.55, 0.0022],
         },
         lightPosition: { value: lightPosition },
       },
