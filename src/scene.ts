@@ -11,13 +11,13 @@ import { Tile } from './tile';
 
 export class Scene extends SceneBase {
   public camera = new OrthographicCameraAuto(25);
-  public battleManager: BattleManager;
+  public battleManager = new BattleManager(this);
   public grid = new Grid();
 
   constructor() {
     super();
     const origin = new Vector3();
-    const ambientLight = new AmbientLight('red', 0.1);
+    const ambientLight = new AmbientLight('orange', 0.5);
     const spotLight = new SpotLight('gray', 500, 100, Math.PI / 2, 1);
     spotLight.translateY(5).translateX(-1);
     const pointLight1 = new PointLight('orange', 50, 200);
@@ -34,8 +34,6 @@ export class Scene extends SceneBase {
     this.grid.tiles[5][0].trigger('click'); // spawn pumpki
     this.addGhost(5);
 
-    this.battleManager = new BattleManager(this);
-
     this.on('afteranimate', (e) => {
       this.battleManager.update(e.delta);
     });
@@ -49,7 +47,7 @@ export class Scene extends SceneBase {
   }
 
   public addGhost(row: number): void {
-    const ghost = new Ghost(row);
+    const ghost = new Ghost(row, 2);
     this.add(ghost);
     this.battleManager.ghosts[row].push(ghost);
   }

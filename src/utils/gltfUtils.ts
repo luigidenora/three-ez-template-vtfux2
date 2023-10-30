@@ -5,7 +5,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 export enum Models { // use only string
   pumpkin = './models/pumpkin.glb',
   ghost = './models/gost.glb',
-  island = './models/island.glb'
+  island = './models/island.glb',
 }
 
 export interface GLTFAnimations {
@@ -44,7 +44,6 @@ export class GLTFUtils {
             obj.castShadow = true;
             obj.receiveShadow = true;
             (obj as Mesh).geometry?.computeBoundingBox();
-            console.l
           });
 
           this.cache[model] = { group, animations: gltf.animations, firstUse: true };

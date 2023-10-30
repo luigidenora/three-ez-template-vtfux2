@@ -5,14 +5,13 @@ export class Ghost extends Mesh {
   public boundingBox = new Box3();
   public isDead = false;
 
-  constructor(public row: number) {
+  constructor(public row: number, public life: number) {
     super();
     this.interceptByRaycaster = false;
     this.scale.multiplyScalar(5);
     this.load();
     this.translateX(5);
     this.translateZ(0.5 + row - 5);
-    // this.position.z = row * 10;
   }
 
   private load(): void {
@@ -39,6 +38,5 @@ export class Ghost extends Mesh {
   }
 }
 
-// spawn e vittoria
+// vittoria
 // miglioramenti
-// kill delle zucche
