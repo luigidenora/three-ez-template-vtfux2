@@ -1,6 +1,6 @@
 import { Group, Mesh, MeshBasicMaterial, PointLight, SphereGeometry } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { FoliageMaterial } from './foliage-material';
+import { FoliageMaterial } from './materials/foliage-material';
 
 const loader = new GLTFLoader();
 
@@ -10,11 +10,10 @@ export class Island extends Group {
   constructor() {
     super();
     this.interceptByRaycaster = false;
-    this.position.y = -1;
     this.scale.multiplyScalar(2);
     this.rotateY(Math.PI);
     this.load();
-    
+
     this.add(this.innerLight);
   }
 

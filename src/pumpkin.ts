@@ -1,59 +1,53 @@
-import { AnimationMixer, DoubleSide, Group, Mesh, MeshBasicMaterial, PointLight, SkinnedMesh, SphereGeometry } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-const loader = new GLTFLoader();
+import { AnimationAction, AnimationMixer, Group, MeshLambertMaterial, PointLight, PointLightHelper, SkinnedMesh, Vector3 } from 'three';
+import { LightUtils } from './utils/lightUtils';
+import { GLTFUtils } from './utils/gltfUtils';
+import { Bullet } from './bullet';
 
 export class Pumpkin extends Group {
-  public innerLight = new PointLight('orange', 0, 10, 5);
-  private _mixer: AnimationMixer;
-  private helper = new Mesh(new SphereGeometry(0.01), new MeshBasicMaterial());
+  private _action: AnimationAction;
+  private _bulletOffset = new Vector3(-0.5, 0.2, -0.2);
 
-  constructor() {
+  constructor(private _isInput = false) {
     super();
-    this.rotation.y = Math.PI / 2;
+    this.rotateY(Math.PI / 2);
     this.scale.multiplyScalar(5);
     this.load();
+    !_isInput && this.addLight();
+    this.interceptByRaycaster = !_isInput;
+  }
 
-    this.add(this.innerLight);
-    this.innerLight.castShadow = true;
-
-    this.innerLight.shadow.mapSize.width = 1024;
-    this.innerLight.shadow.mapSize.height = 1024;
-    this.innerLight.shadow.camera.near = 0.1;
-    this.innerLight.shadow.camera.far = 1000;
-
-    this.innerLight.shadow.bias = -0.005;
-
-    this.helper.position.copy(this.innerLight.position);
-    this.add(this.helper);
-
-    this.on('animate', (e) => {
-      this._mixer?.update(e.delta);
-      this.innerLight.position.y = 0.1 + Math.sin(e.total * 15) * 0.005;
-      this.innerLight.position.x = Math.cos(e.total * 15) * 0.005;
-      this.innerLight.intensity = Math.abs(Math.sin(e.total * 2) * 45);
-    });
+  private addLight(): void {
+    const pointLight = new PointLight('orange', 1, 10, 5);
+    LightUtils.applyShadow(pointLight, 32);
+    pointLight.position.y = 0.02;
+    this.add(pointLight);
   }
 
   private load(): void {
-    loader.load('./models/pumpkin.glb', (gltf) => {
-      const model = gltf.scene.children[0];
-      this.add(model);
-      
-      (model.children[0] as SkinnedMesh).material = new MeshBasicMaterial({color: 'green'});
+    GLTFUtils.loadPumpkin().then((obj) => {
+      this.add(obj.group);
+      this._action = obj.action;
 
-      model.traverse((obj) => {
-        obj.draggable = true;
-        obj.dragTarget = this;
-        obj.castShadow = true;
-        obj.receiveShadow = false;
-      });
-
-      const animations = gltf.animations;
-      this._mixer = new AnimationMixer(model);
-      const sputoAction = this._mixer.clipAction(animations[2]);
-      sputoAction.repetitions = 1;
-      sputoAction.play();
+      if (!this._isInput) {
+        setInterval(() => this.shoot(), 3000);
+        this.on('animate', (e) => {
+          obj.mixer.update(e.delta);
+        });
+      } else {
+        // fixare clone
+        // const material1 = (this.children[0].children[0] as SkinnedMesh).material as MeshLambertMaterial; // get by name
+        // const material2 = (this.children[0].children[1] as SkinnedMesh).material as MeshLambertMaterial;
+        // material1.transparent = material2.transparent = true;
+        // material1.opacity = material2.opacity = 0.3;
+      }
     });
   }
+
+  private shoot(): void {
+    this._action.stop();
+    this._action.play();
+    this.scene.add(new Bullet(this.position.clone().add(this._bulletOffset)));
+  }
 }
+
+export const inputPumpkin = new Pumpkin(true);

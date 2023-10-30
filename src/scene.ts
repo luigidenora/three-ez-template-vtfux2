@@ -13,7 +13,7 @@ export class Scene extends SceneBase {
 
     this.add(ambientLight, directionalLight, new Grid());
 
-    this.camera.position.setFromSphericalCoords(40, /*Math.PI / 3*/ Math.PI / 3, /*Math.PI / 4*/ Math.PI / 4);
+    this.camera.position.setFromSphericalCoords(40, Math.PI / 3, Math.PI / 4);
     this.camera.lookAt(origin);
 
     directionalLight.matrixAutoUpdate = false;
