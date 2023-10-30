@@ -13,3 +13,6 @@ GLTFUtils.preload().then(() => {
     
     (window as any).main = main;
 });
+
+
+interface.init
