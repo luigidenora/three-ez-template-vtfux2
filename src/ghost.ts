@@ -1,12 +1,15 @@
-import { Euler, Mesh, Box3 } from 'three';
+import { Euler, Mesh, Box3, Audio } from 'three';
 import { GLTFUtils, Models } from './utils/gltfUtils';
+import { AudioUtils } from './utils/audioUtils';
 
 export class Ghost extends Mesh {
   public boundingBox = new Box3();
   public isDead = false;
+  public hitSound: Audio;
 
   constructor(public row: number, public life: number) {
     super();
+    this.hitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
     this.interceptByRaycaster = false;
     this.scale.multiplyScalar(5);
     this.load();
@@ -17,7 +20,6 @@ export class Ghost extends Mesh {
   private load(): void {
     const obj = GLTFUtils.get(Models.ghost, true);
     this.add(obj.group.children[0]);
-    !this.geometry.boundingBox && this.geometry.computeBoundingBox();
     obj.actions[0].play();
 
     this.on('animate', (e) => {

@@ -1,26 +1,27 @@
-import { AnimationAction, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3 } from 'three';
+import { AnimationAction, Box3, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3, Audio } from 'three';
 import { Bullet } from './bullet';
 import { GLTFUtils, Models } from './utils/gltfUtils';
 import { Tile } from './tile';
 import { Scene } from './scene';
+import { AudioUtils } from './utils/audioUtils';
 
 export class Pumpkin extends Group {
   declare scene: Scene;
+  public boundingBox = new Box3();
+  public spitSound: Audio;
   private _shootAction: AnimationAction;
   private _bulletOffset = new Vector3(-0.5, 0.2, -0.2);
   private _shootDelay = 2;
-
   private _elapsedTime = 0;
   private _isDead = false;
-  private _tile: Tile;
 
-  constructor(private _isInput = false, tile?: Tile) {
+  constructor(private _isInput = false, private _tile?: Tile) {
     super();
     this.rotateY(Math.PI / 2);
     this.scale.multiplyScalar(5);
     this.load();
+    this.spitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
     this.interceptByRaycaster = false;
-    this._tile = tile;
   }
 
   private load(): void {
@@ -32,7 +33,7 @@ export class Pumpkin extends Group {
     if (!this._isInput) {
       this.on('animate', (e) => {
         this._elapsedTime += e.delta;
-        if(this._elapsedTime > this._shootDelay) {
+        if (this._elapsedTime > this._shootDelay) {
           this.shoot();
           this._elapsedTime -= this._shootDelay;
         }
@@ -51,6 +52,7 @@ export class Pumpkin extends Group {
   private shoot(): void {
     this._shootAction.stop();
     this._shootAction.play();
+    this.spitSound.play();
     this.scene.shoot(this.position.clone().add(this._bulletOffset), this._tile.row);
   }
 

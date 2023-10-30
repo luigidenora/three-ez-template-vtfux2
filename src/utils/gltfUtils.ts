@@ -41,8 +41,6 @@ export class GLTFUtils {
           const group = gltf.scene;
 
           group.traverse((obj) => {
-            obj.castShadow = true;
-            obj.receiveShadow = true;
             (obj as Mesh).geometry?.computeBoundingBox();
           });
 

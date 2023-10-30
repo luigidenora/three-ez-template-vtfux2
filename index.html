@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>three.ez example</title>
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        overflow: hidden;
-        overscroll-behavior: none;
-      }
 
-      canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-        touch-action: none;
-        user-select: none;
-      }
-    </style>
-     <link rel="stylesheet" href="/styles/style.css">
-  </head>
-  <body>
-    <h1 class="title">Pumpkin vs Ghost</h1>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>three.ez example</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      user-select: none;
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+  <script type="module" src="/src/main.ts"></script>
+  <div class="scene-container">
+    <h1 class="title">
+      <div class="pumpkin"> Pumpkin </div>
+      <div class="vs">vs</div>
+      <div class="ghost">Ghost</div>
+    </h1>
+    <div class="loading-bar"></div>
+  </div>
+</body>
+
 </html>

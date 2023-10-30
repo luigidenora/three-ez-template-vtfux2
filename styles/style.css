@@ -13,10 +13,56 @@ h1.title {
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  mix-blend-mode: color;
+  flex: 1;
+  padding-top: 1em;
+  font-size: 10em;
+  line-height: 0.4em;
+  opacity: 0.5;
+  text-align: center;
+  line-break: strict;
+  margin-left: 1em;
+  margin-top: -0.5em;
+
+}
+
+.title .pumpkin {
+  margin-left: -1em;
+}
+
+.title .vs {
+  font-size: 0.5em;
+  margin-right: 0.55em;
+  line-height: 0.3em;
+}
+
+.title .ghost {
+  margin-top: 0.15em;
+  margin-left: -0.9em;
+}
+
+.scene-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.loading-bar {
+  flex: 0;
+  top: 50%;
+  width: 100%;
+  height: 40px;
+  background: orange;
+  
 }
 
 
-button {
-    
+
+body{
+  font-size: calc(15px + 0.390625vw);
+  background: black;
 }

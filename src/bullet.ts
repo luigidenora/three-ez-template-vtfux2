@@ -9,6 +9,5 @@ export class Bullet extends Mesh {
   constructor(origin: Vector3, public row: number) {
     super(geometry, material);
     this.position.copy(origin);
-    // this.castShadow = true;
   }
 }

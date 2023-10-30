@@ -43,9 +43,14 @@ export class BattleManager {
     this.bullets.splice(index, 1);
   }
 
-  private removeGhost(bIndex: number, gIndex: number): void {
-    const ghostsRow = this.ghosts[bIndex];
-    ghostsRow.splice(gIndex, 1);
+  private removeGhost(rowIndex: number, ghostIndex: number): void {
+    const ghostsRow = this.ghosts[rowIndex];
+    ghostsRow.splice(ghostIndex, 1);
+  }
+
+  private removePumpkin(rowIndex: number, pumpkinIndex: number): void {
+    const pumpkinRow = this.pumpkin[rowIndex];
+    pumpkinRow.splice(pumpkinIndex, 1);
   }
 
   private checkBulletGhostCollision(bullet: Bullet): number {
@@ -71,6 +76,7 @@ export class BattleManager {
       if (collisionIndex !== undefined) {
         this.removeBullet(i);
         const ghost = this.ghosts[bullet.row][collisionIndex];
+        ghost.hitSound.play();
         if (--ghost.life === 0) {
           this.ghosts[bullet.row][collisionIndex].die();
           this.removeGhost(bullet.row, collisionIndex);
@@ -86,23 +92,22 @@ export class BattleManager {
 
   private computeGhostCollision(delta: number): void {
     // this should be opt but no time :<
-      // for (let i = 0; i < this.ghosts.length; i++) {
-      //   const ghostRow = this.ghosts[i];
-       
-      //   let collisionIndex = this.checkBulletGhostCollision(bullet);
-      //   if (collisionIndex !== undefined) {
-      //     this.removeBullet(i);
-      //     const ghost = this.ghosts[bullet.row][collisionIndex];
-      //     if (--ghost.life === 0) {
-      //       this.ghosts[bullet.row][collisionIndex].die();
-      //       this.removeGhost(bullet.row, collisionIndex);
-      //     }
-      //   } else {
-      //     bullet.position.copy(newPosition);
-      //     if (bullet.position.x > 5) {
-      //       this.removeBullet(i);
-      //     }
-      //   }
-      // }
+    for (let row = 0; row < this.ghosts.length; row++) {
+      const ghostRow = this.ghosts[row];
+      const pumpkinRow = this.pumpkin[row];
+
+      for (let i = 0; i < ghostRow.length; i++) {
+        const ghost = ghostRow[i];
+
+        for (let j = 0; j < pumpkinRow.length; j++) {
+          const pumpkin = pumpkinRow[j];
+          if (ghost.boundingBox.intersectsBox(pumpkin.boundingBox)) {
+            pumpkin.die();
+            this.removePumpkin(row, j);
+            break;
+          }
+        }
+      }
+    }
   }
 }
