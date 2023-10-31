@@ -3,9 +3,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 export enum Models { // use only string
-  pumpkin = './models/pumpkin.glb',
-  ghost = './models/ghost.glb',
-  island = './models/island.glb',
+  pumpkin = 'https://vercel.com/api/v6/deployments/dpl_C1nPNPzjSGibztgA5BwkFCMsKz6N/files/get?path=models%2Fpumpkin.glb',
+  ghost = 'https://vercel.com/api/v6/deployments/dpl_C1nPNPzjSGibztgA5BwkFCMsKz6N/files/get?path=models%2Fghost.glb',
+  island = 'https://vercel.com/api/v6/deployments/dpl_C1nPNPzjSGibztgA5BwkFCMsKz6N/files/get?path=models%2Fisland.glb',
 }
 
 export interface GLTFAnimations {
