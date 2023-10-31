@@ -166,3 +166,18 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 .header .money {
   color: yellow;
 }
+
+#game-over-dialog {
+  width: max-content;
+}
+
+#game-over-dialog .game-over {
+  font-size: 6em;
+  font-family: creepster;
+  background-image: linear-gradient(orange, rgb(255, 0, 255));
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  line-height: 1.6;
+
+}

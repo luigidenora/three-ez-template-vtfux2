@@ -73,11 +73,15 @@
       <button class="action">Close</button>
     </form>
   </dialog>
-  <dialog id="game-over">
+  <dialog id="game-over-dialog">
     <form method="dialog">
-      <p class="info-description">
-      <h1 class="title" id="score"></h1>
-      </p>
+      <h1 class="game-over">GAME OVER</h1>
+      <br>
+      <h1 class="info-description">
+        <div class="score" >
+          score: <span id="score">00000</span>
+       </div>
+      </h1>
       <button class="action" onclick="window.location.reload()">Reset</button>
     </form>
   </dialog>
