@@ -60,9 +60,10 @@ export class Pumpkin extends Group {
       const material2 = ((this.children[0].children[1].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
       const material3 = ((this.children[0].children[1].children[1] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
       (this.children[0].children[0] as SkinnedMesh).material = material1;
-      (this.children[0].children[1] as SkinnedMesh).material = material2;
-      material1.transparent = material2.transparent = true;
-      material1.opacity = material2.opacity = 0.3;
+      (this.children[0].children[1].children[0] as SkinnedMesh).material = material2;
+      (this.children[0].children[1].children[1] as SkinnedMesh).material = material3;
+      material1.transparent = material2.transparent = material3.transparent = true;
+      material1.opacity = material2.opacity = material3.opacity = 0.3;
 
       this.on('animate', () => {
         const color = this.scene.battleManager.money === 0 ? 'red' : 'black';
@@ -83,8 +84,8 @@ export class Pumpkin extends Group {
 
   public setMaterialVisibility(value: boolean): void {
     const material1 = (this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial;
-    const material2 = ((this.children[0].children[1].children[0] as SkinnedMesh).material as MeshPhysicalMaterial);
-    const material3 = ((this.children[0].children[1].children[1] as SkinnedMesh).material as MeshPhysicalMaterial);
+    const material2 = (this.children[0].children[1].children[0] as SkinnedMesh).material as MeshPhysicalMaterial;
+    const material3 = (this.children[0].children[1].children[1] as SkinnedMesh).material as MeshPhysicalMaterial;
     material1.opacity = material2.opacity = material3.opacity = value ? 0.3 : 0;
   }
 
@@ -113,7 +114,7 @@ export class Pumpkin extends Group {
         this.children[0].children[1].children[0].cursor = 'not-allowed';
         this.children[0].children[1].children[1].cursor = 'not-allowed';
         this._tile.cursor = 'not-allowed';
-      } 
+      }
       const red = this._shootDelay / 1.5;
       this.add(new Particles(new Color(red, 1 - red, 1 - red)));
       return true;
@@ -121,8 +122,6 @@ export class Pumpkin extends Group {
   }
 
   public changeScale(value: number): void {
-    this.tween('scale')
-    .to(200, { scale: value }, { easing: 'linear' })
-    .start();
+    this.tween('scale').to(200, { scale: value }, { easing: 'linear' }).start();
   }
 }
