@@ -26,15 +26,14 @@ export class Interface {
   }
 
   public static setMoney(money: number) {
-    this._money.textContent = money.toString().padStart(2, '0');
+    this._money.textContent = money.toString().padStart(3, '0');
   }
 
   public static setScore(score: number) {
-    this._score.textContent = score.toString();
+    this._money.textContent = score.toString().padStart(5, '0');
   }
 
   public static loaded() {
     this._startInterface.classList.add('game-mode');
   }
-
 }

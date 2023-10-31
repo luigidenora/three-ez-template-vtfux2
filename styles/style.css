@@ -147,4 +147,22 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   pointer-events: all;
 }
 
- 
+.header {
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: creepster;
+  font-size: 3em;
+  line-height: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0 0.25em;
+}
+
+
+.header .money {
+  color: yellow;
+}
