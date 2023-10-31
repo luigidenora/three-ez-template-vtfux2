@@ -26,6 +26,7 @@ h1.title {
   align-items: center;
   flex-direction: column;
   pointer-events: none;
+  transition: transform 300ms ease-out ;
 }
 
 .title .pumpkin {
@@ -52,16 +53,22 @@ h1.title {
   bottom: 0;
   right: 0;
   background-color: #092409;
-  transition: opacity ease-in 500ms;
+  transition: background ease-in 500ms;
   justify-content: center;
   align-content: center;
   align-items: center;
   padding-top: 12em;
 }
 
-.scene-container.hidden {
+.game-mode.scene-container {
+  background-color: transparent;
   pointer-events: none;
+}
+.game-mode button.smart-button {
   opacity: 0;
+}
+.game-mode.scene-container h1.title {
+  transform: translate(-3.1em, -2.1em) scale(0.5);
 }
 
 button.action {
@@ -70,7 +77,7 @@ button.action {
   background: transparent;
   font-size: 3em;
   font-family: HalloWitchZ;
-  color: rgba(255, 166, 0, 0.5);
+  color: rgb(30, 255, 0);
   line-height: 1.6;
   max-height: 1em;
   outline: none;
@@ -88,6 +95,11 @@ button.action:hover {
 button.action:active {
   transform: scale(0.9);
 }
+
+button.smart-button {
+  transition: opacity ease-in 500ms;
+}
+
 .action-container {
   padding: 4em;
 }
@@ -119,6 +131,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 }
 
 .loader {
+  display: none;
   width: fit-content;
   font-family: monospace;
   font-size: 30px;
@@ -134,17 +147,14 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     clip-path: inset(0 -1ch 0 0);
   }
 }
-.smart-button {
-  opacity: 0;
-  pointer-events: none;
+
+.loading .loader {
+  display: block;
 }
 
-.game-mode .loader {
-  display: none;
-}
-.game-mode button.smart-button {
-  opacity: 1;
-  pointer-events: all;
+.loading button.smart-button {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .header {
@@ -162,7 +172,6 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   padding: 0 0.25em;
 }
 
-
 .header .money {
   color: yellow;
 }
@@ -179,5 +188,4 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   background-clip: text;
   -webkit-background-clip: text;
   line-height: 1.6;
-
 }

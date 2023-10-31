@@ -15,7 +15,7 @@ export class Interface {
       this._infoModal.showModal();
     });
     this._playButton.addEventListener('click', () => {
-      this._startInterface.classList.add('hidden');
+      this._startInterface.classList.add('game-mode');
     });
   }
 
@@ -38,7 +38,7 @@ export class Interface {
   }
 
   public static loaded() {
-    this._startInterface.classList.add('game-mode');
+    this._startInterface.classList.remove('loading');
   }
 
   public static gameOver() {    
