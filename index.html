@@ -1,74 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>three.ez example</title>
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        overflow: hidden;
-        overscroll-behavior: none;
-      }
 
-      canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-        touch-action: none;
-        user-select: none;
-      }
-    </style>
-    <link rel="stylesheet" href="/styles/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>three.ez example</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
 
-  <body>
-    <script type="module" src="/src/main.ts"></script>
-    <div class="header">
-      <div class="money"></div>
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      user-select: none;
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/style.css" />
+</head>
+
+<body>
+  <script type="module" src="/src/main.ts"></script>
+  <div class="header">
+    <div class="money">
+      <span id="money"></span> 💰
     </div>
-    <div class="scene-container" id="start-interface">
-      <h1 class="title">
-        <div class="pumpkin">Pumpkins</div>
-        <div class="vs">vs</div>
-        <div class="ghost">Ghosts</div>
-      </h1>
-      <div class="action-container">
-        <button class="action" id="info" name="Info">Info</button>
-        <button class="action" id="play" name="Play">Play</button>
+    <div class="score" id="score">
+      <div class="score">
+        <span id="score"></span>
       </div>
-      <div class="loader"></div>
     </div>
-    <dialog id="info-dialog">
-      <form method="dialog">
-        <p class="info-description">
-          As the moon rises and the night falls, the field becomes a battleground. From the eerie shadows on the right, waves of ghosts emerge, their eyes glowing with a spectral light. They drift
-          closer and closer to your base, their ghostly wails echoing in the night.
-        </p>
-        <p class="info-description">
-          But fear not! For you have a powerful ally - the mighty pumpkin. With each gold point you collect, you can plant a pumpkin on the field. Each pumpkin stands as a brave sentinel, glowing
-          brightly in the moonlight.
-        </p>
-        <p class="info-description">
-          As the ghosts approach, your pumpkins spring into action. With each attack, a ghost is vanquished, dissolving into the night from whence it came. Your goal is to strategically place your
-          pumpkins to create an impenetrable defense against these spectral invaders.
-        </p>
-        <p class="info-description">
-          With each level, the challenge grows, but remember - each pumpkin planted is a beacon of hope in the face of these spooky specters. Stand firm, strategize wisely, and may your pumpkins
-          always stand strong against the ghostly onslaught!
-        </p>
-        <button class="action">Close</button>
-      </form>
-    </dialog>
-    <dialog id="game-over" open>
-      <form method="dialog" >
-        <p class="info-description">
-          <h1 class="title" id="score"></h1>
-        </p>
-        <button class="action" onclick="window.location.reload()">Reset</button>
-      </form>
-    </dialog>
-  </body>
+  </div>
+  <div class="scene-container" id="start-interface">
+    <h1 class="title">
+      <div class="pumpkin">Pumpkins</div>
+      <div class="vs">vs</div>
+      <div class="ghost">Ghosts</div>
+    </h1>
+    <div class="action-container">
+      <button class="action smart-button" id="info" name="Info">Info</button>
+      <button class="action smart-button" id="play" name="Play" onClick="window.start()">Play</button>
+    </div>
+    <div class="loader"></div>
+  </div>
+  <dialog id="info-dialog">
+    <form method="dialog">
+      <p class="info-description">
+        As the moon rises and the night falls, the field becomes a battleground. From the eerie shadows on the right,
+        waves of ghosts emerge, their eyes glowing with a spectral light. They drift
+        closer and closer to your base, their ghostly wails echoing in the night.
+      </p>
+      <p class="info-description">
+        But fear not! For you have a powerful ally - the mighty pumpkin. With each gold point you collect, you can plant
+        a pumpkin on the field. Each pumpkin stands as a brave sentinel, glowing
+        brightly in the moonlight.
+      </p>
+      <p class="info-description">
+        As the ghosts approach, your pumpkins spring into action. With each attack, a ghost is vanquished, dissolving
+        into the night from whence it came. Your goal is to strategically place your
+        pumpkins to create an impenetrable defense against these spectral invaders.
+      </p>
+      <p class="info-description">
+        With each level, the challenge grows, but remember - each pumpkin planted is a beacon of hope in the face of
+        these spooky specters. Stand firm, strategize wisely, and may your pumpkins
+        always stand strong against the ghostly onslaught!
+      </p>
+      <button class="action">Close</button>
+    </form>
+  </dialog>
+  <dialog id="game-over">
+    <form method="dialog">
+      <p class="info-description">
+      <h1 class="title" id="score"></h1>
+      </p>
+      <button class="action" onclick="window.location.reload()">Reset</button>
+    </form>
+  </dialog>
+</body>
+
 </html>

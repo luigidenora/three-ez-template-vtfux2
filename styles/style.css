@@ -33,8 +33,8 @@ h1.title {
 }
 
 .title .vs {
-  font-size: 0.5em;
-  margin-right: 0.55em;
+  font-size: 0.6em;
+  margin-right: 0.85em;
   line-height: 0.3em;
 }
 
@@ -74,6 +74,7 @@ button.action {
   line-height: 1.6;
   max-height: 1em;
   outline: none;
+  transition: opacity ease-in 70ms;
 }
 
 button.action:hover {
@@ -133,3 +134,17 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     clip-path: inset(0 -1ch 0 0);
   }
 }
+.smart-button {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game-mode .loader {
+  display: none;
+}
+.game-mode button.smart-button {
+  opacity: 1;
+  pointer-events: all;
+}
+
+ 

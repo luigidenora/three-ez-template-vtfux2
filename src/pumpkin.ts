@@ -1,10 +1,10 @@
-import { AnimationAction, Box3, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3, Audio, Color } from 'three';
-import { Bullet } from './bullet';
-import { GLTFUtils, Models } from './utils/gltfUtils';
-import { Tile } from './tile';
-import { Scene } from './scene';
-import { AudioUtils } from './utils/audioUtils';
+import { AnimationAction, Audio, Box3, Color, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3 } from 'three';
+import { Interface } from './interface';
 import { Particles } from './particles';
+import { Scene } from './scene';
+import { Tile } from './tile';
+import { AudioUtils } from './utils/audioUtils';
+import { GLTFUtils, Models } from './utils/gltfUtils';
 
 export class Pumpkin extends Group {
   declare scene: Scene;
@@ -98,7 +98,13 @@ export class Pumpkin extends Group {
   public powerUp(): void {
     if (this.scene.battleManager.money > 0 && this._shootDelay > 0.25) {
       this.scene.battleManager.money--;
-      this._shootDelay = Math.max(0.25, this._shootDelay - 0.5);
+      Interface.setMoney(this.scene.battleManager.money);
+      this._shootDelay = Math.max(0.25, this._shootDelay - 0.25);
+      if (this._shootDelay === 0.25) {
+        this.children[0].children[0].cursor = 'not-allowed';
+        this.children[0].children[1].cursor = 'not-allowed';
+        this._tile.cursor = 'not-allowed';
+      }
       const red = this._shootDelay / 1.5;
       this.add(new Particles(new Color(red, 1 - red, 1 - red)));
     }

@@ -28,7 +28,7 @@ export class Ghost extends Mesh {
     this.on('animate', (e) => {
       obj.mixer.update(e.delta);
       !this.isDead && this.translateX(-e.delta);
-      if (this.position.x < -5) this.scene.gameOver(false);
+      if (this.position.x < -5) this.scene.gameOver();
       this.boundingBox.setFromObject(this);
     });
   }

@@ -17,7 +17,7 @@ export class Interface {
   }
 
   public static play() {
-    window.document.getElementById('scene-container').classList.add('hide');
+    window.document.getElementById('scene-container').classList.add('in-game');
   }
 
   public static info() {
@@ -29,12 +29,11 @@ export class Interface {
     this._money.textContent = money.toString().padStart(2, '0');
   }
 
-  public static setScore(goldValue: string) {
-    this._score.textContent = goldValue;
+  public static setScore(score: number) {
+    this._score.textContent = score.toString();
   }
 
-  public static loaded(goldValue: string) {
-    this._score.textContent = goldValue;
+  public static loaded() {
     this._startInterface.classList.add('game-mode');
   }
 

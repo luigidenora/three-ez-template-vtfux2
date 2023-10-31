@@ -60,7 +60,7 @@ export class Scene extends SceneBase {
     this.battleManager.bullets.push(bullet);
   }
 
-  public gameOver(win: boolean): void {
-    this.dispatchEvent<any>({ type: 'gameOver', win });
+  public gameOver(): void {
+    this.dispatchEvent<any>({ type: 'gameOver' });
   }
 }

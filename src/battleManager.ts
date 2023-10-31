@@ -1,6 +1,7 @@
-import { Vector3, Ray } from 'three';
+import { Ray, Vector3 } from 'three';
 import { Bullet } from './bullet';
 import { Ghost } from './ghost';
+import { Interface } from './interface';
 import { Pumpkin } from './pumpkin';
 import { Scene } from './scene';
 
@@ -9,7 +10,7 @@ export class BattleManager {
   public ghosts: Ghost[][] = [];
   public pumpkin: Pumpkin[][] = [];
   public score = 0;
-  public money = 4; // 3 start (-1 for starting pumpkin)
+  public money = 2; // 3 start (-1 for starting pumpkin)
   private _temp = new Vector3();
   private _direction = new Vector3();
   private _direction2 = new Vector3();
@@ -25,6 +26,8 @@ export class BattleManager {
       this.ghosts[i] = [];
       this.pumpkin[i] = [];
     }
+    Interface.setMoney(this.money);
+    Interface.setScore(this.score);
   }
 
   public update(delta: number): void {
@@ -87,7 +90,9 @@ export class BattleManager {
         ghost.hitSound.play();
         if (--ghost.health === 0) {
           this.score++;
+          Interface.setScore(this.score);
           this.money++;
+          Interface.setMoney(this.money);
           this._scene.timeScale += 0.01;
           ghost.die();
           this.removeGhost(bullet.row, collisionIndex);

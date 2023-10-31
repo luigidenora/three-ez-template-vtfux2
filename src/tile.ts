@@ -1,6 +1,7 @@
 import { Mesh, MeshLambertMaterial, PlaneGeometry } from 'three';
-import { Pumpkin } from './pumpkin';
 import { Grid } from './grid';
+import { Interface } from './interface';
+import { Pumpkin } from './pumpkin';
 import { Scene } from './scene';
 
 export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
@@ -35,6 +36,7 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
         this.pumpkin.powerUp();
       } else if (this.scene.battleManager.money > 0) {
         this.scene.battleManager.money--;
+        Interface.setMoney(this.scene.battleManager.money);
         this.isBusy = true;
         this.material.color.set('red');
         this.pumpkin = this.scene.addPumpkin(this);
