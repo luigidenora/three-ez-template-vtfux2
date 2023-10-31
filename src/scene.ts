@@ -54,8 +54,8 @@ export class Scene extends SceneBase {
     this.battleManager.ghosts[row].push(ghost);
   }
 
-  public shoot(origin: Vector3, row: number): void {
-    const bullet = new Bullet(origin, row);
+  public shoot(origin: Vector3, row: number, scale: number): void {
+    const bullet = new Bullet(origin, row, scale);
     this.add(bullet);
     this.battleManager.bullets.push(bullet);
   }

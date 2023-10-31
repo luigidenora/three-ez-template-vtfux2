@@ -99,7 +99,7 @@ export class BattleManager {
         }
       } else {
         bullet.position.copy(newPosition);
-        if (bullet.position.x > 5) {
+        if (bullet.position.x > 8) {
           this.removeBullet(i);
         }
       }

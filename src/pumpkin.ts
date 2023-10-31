@@ -79,7 +79,7 @@ export class Pumpkin extends Group {
     this._shootAction.play();
     this.spitSound.play();
     const bulletOffset = this._temp.copy(this._bulletOffset).multiplyScalar(this.scale.x);
-    this.scene.shoot(this.position.clone().add(bulletOffset), this._tile.row);
+    this.scene.shoot(this.position.clone().add(bulletOffset), this._tile.row, this.scale.x);
   }
 
   public setMaterialVisibility(value: boolean): void {
@@ -104,12 +104,12 @@ export class Pumpkin extends Group {
   }
 
   public powerUp(): boolean {
-    if (this.scene.battleManager.money > 0 && this._shootDelay > 0.25) {
+    if (this.scene.battleManager.money > 0 && this._shootDelay > 0.20) {
       this.scene.battleManager.money--;
       Interface.setMoney(this.scene.battleManager.money);
-      this._shootDelay = Math.max(0.25, this._shootDelay - 0.25);
-      this.changeScale(2.5 + (2 - this._shootDelay + 0.25) * 2);
-      if (this._shootDelay === 0.25) {
+      this._shootDelay = Math.max(0.20, this._shootDelay - 0.33);
+      this.changeScale(2.5 + (2 - this._shootDelay + 0.20) * 2);
+      if (this._shootDelay === 0.20) {
         this.children[0].children[0].cursor = 'not-allowed';
         this.children[0].children[1].children[0].cursor = 'not-allowed';
         this.children[0].children[1].children[1].cursor = 'not-allowed';

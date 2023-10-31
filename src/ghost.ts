@@ -18,7 +18,7 @@ export class Ghost extends Mesh {
     this.startScale = 2.5 + health * 0.3;
     this.scale.multiplyScalar(this.startScale);
     this.load();
-    this.translateX(5);
+    this.translateX(7);
     this.translateZ(0.5 + row - 5);
   }
 
