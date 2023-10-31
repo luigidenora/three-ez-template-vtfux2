@@ -8,13 +8,15 @@ export class Ghost extends Mesh {
   public boundingBox = new Box3();
   public isDead = false;
   public hitSound: Audio;
+  public startScale: number;
 
   constructor(public row: number, public health: number) {
     super();
     this.hitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.hitSoundBuffer);
     this.hitSound.setVolume(0.1);
     this.interceptByRaycaster = false;
-    this.scale.multiplyScalar(5);
+    this.startScale = 2.5 + health * 0.3;
+    this.scale.multiplyScalar(this.startScale);
     this.load();
     this.translateX(5);
     this.translateZ(0.5 + row - 5);
@@ -36,7 +38,7 @@ export class Ghost extends Mesh {
   public die(): void {
     this.isDead = true;
     this.tween()
-      .by(1000, { rotation: new Euler(0, Math.PI * 4, 0), scale: -5 }, { easing: 'easeInBack' })
+      .by(1000, { rotation: new Euler(0, Math.PI * 4, 0), scale: -this.startScale }, { easing: 'easeInBack' })
       .call(() => {
         this.removeFromParent();
       })

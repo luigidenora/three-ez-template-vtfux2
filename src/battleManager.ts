@@ -10,7 +10,7 @@ export class BattleManager {
   public ghosts: Ghost[][] = [];
   public pumpkin: Pumpkin[][] = [];
   public score = 0;
-  public money = 2; // 3 start (-1 for starting pumpkin)
+  public money = 3; // 2 start (-1 for starting pumpkin)
   private _temp = new Vector3();
   private _direction = new Vector3();
   private _direction2 = new Vector3();

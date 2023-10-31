@@ -55,11 +55,6 @@ export class Pumpkin extends Group {
         if (this._isDead) return;
         this.powerUp();
       });
-
-      this.on('dblclick', () => {
-        if (this._isDead) return;
-        this.maxPowerUp();
-      });
     } else {
       const material1 = ((this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
       const material2 = ((this.children[0].children[1] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
@@ -80,8 +75,8 @@ export class Pumpkin extends Group {
     this._shootAction.stop();
     this._shootAction.play();
     this.spitSound.play();
-    const temp = this._bulletOffset;
-    this.scene.shoot(this.position.clone().add(this._bulletOffset), this._tile.row);
+    const bulletOffset = this._temp.copy(this._bulletOffset).multiplyScalar(this.scale.x);
+    this.scene.shoot(this.position.clone().add(bulletOffset), this._tile.row);
   }
 
   public setMaterialVisibility(value: boolean): void {
@@ -109,6 +104,7 @@ export class Pumpkin extends Group {
       this.scene.battleManager.money--;
       Interface.setMoney(this.scene.battleManager.money);
       this._shootDelay = Math.max(0.25, this._shootDelay - 0.25);
+      this.changeScale(2.5 + (2 - this._shootDelay + 0.25) * 2);
       if (this._shootDelay === 0.25) {
         this.children[0].children[0].cursor = 'not-allowed';
         this.children[0].children[1].cursor = 'not-allowed';
@@ -120,7 +116,9 @@ export class Pumpkin extends Group {
     }
   }
 
-  public maxPowerUp(): void {
-    while (this.powerUp() === true);
+  public changeScale(value: number): void {
+    this.tween('scale')
+    .to(200, { scale: value }, { easing: 'linear' })
+    .start();
   }
 }
