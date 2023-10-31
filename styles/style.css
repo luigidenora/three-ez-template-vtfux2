@@ -68,7 +68,7 @@ h1.title {
   opacity: 0;
 }
 .game-mode.scene-container h1.title {
-  transform: translate(-3.1em, -2.1em) scale(0.5);
+  transform: translate(-48%, -51%) scale(0.5);
 }
 
 button.action {
