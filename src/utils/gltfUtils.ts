@@ -3,9 +3,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 export enum Models { // use only string
-  pumpkin = 'https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/pumpkin.glb',
-  ghost = 'https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/ghost.glb',
-  island = 'https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/island.glb',
+  pumpkin = 'https://corsproxy.io/?https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/pumpkin.glb',
+  ghost = 'https://corsproxy.io/?https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/ghost.glb',
+  island = 'https://corsproxy.io/?https://github.com/luigidenora/three-ez-template-vtfux2/raw/master/models/island.glb',
 }
 
 export interface GLTFAnimations {
