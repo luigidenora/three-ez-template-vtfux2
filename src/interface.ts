@@ -36,4 +36,8 @@ export class Interface {
   public static loaded() {
     this._startInterface.classList.add('game-mode');
   }
+
+  public static gameOver() {
+    //
+  }
 }

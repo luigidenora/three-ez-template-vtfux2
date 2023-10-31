@@ -11,7 +11,7 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
   public pumpkin: Pumpkin;
 
   constructor(public row: number, public col: number) {
-    super(new PlaneGeometry(1, 1), new MeshLambertMaterial({ transparent: true, opacity: 0.4, color: 'gray' }));
+    super(new PlaneGeometry(1, 1), new MeshLambertMaterial({ transparent: true, opacity: 0.2, color: 0x092409 }));
     this.position.set(col - 5 + 0.5, 0, row - 5 + 0.5);
     this.rotateX(Math.PI / -2);
     this.cursor = 'cell';
@@ -27,7 +27,7 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
     });
 
     this.on('pointerleave', (e) => {
-      this.material.color.set('gray');
+      this.material.color.set(0x092409);
       this.parent.inputPumpkin.setMaterialVisibility(false);
     });
 

@@ -13,15 +13,16 @@ export class Pumpkin extends Group {
   public punchSound: Audio;
   public spawnSound: Audio;
   private _shootAction: AnimationAction;
-  private _bulletOffset = new Vector3(-0.5, 0.2, -0.2);
+  private _bulletOffset = new Vector3(-0.5, 0.2, -0.2).divideScalar(5);
   private _shootDelay = 2;
   private _elapsedTime = 0;
   private _isDead = false;
+  private _temp = new Vector3();
 
   constructor(private _isInput = false, private _tile?: Tile) {
     super();
     this.rotateY(Math.PI / 2);
-    this.scale.multiplyScalar(5);
+    this.scale.multiplyScalar(2.5);
     this.load();
     this.spitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
     this.punchSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.punchSoundBuffer);
@@ -41,6 +42,7 @@ export class Pumpkin extends Group {
 
     if (!this._isInput) {
       this.on('animate', (e) => {
+        if (this._isDead) return;
         this._elapsedTime += e.delta;
         if (this._elapsedTime > this._shootDelay) {
           this.shoot();
@@ -50,7 +52,13 @@ export class Pumpkin extends Group {
       });
 
       this.on('click', () => {
+        if (this._isDead) return;
         this.powerUp();
+      });
+
+      this.on('dblclick', () => {
+        if (this._isDead) return;
+        this.maxPowerUp();
       });
     } else {
       const material1 = ((this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
@@ -72,6 +80,7 @@ export class Pumpkin extends Group {
     this._shootAction.stop();
     this._shootAction.play();
     this.spitSound.play();
+    const temp = this._bulletOffset;
     this.scene.shoot(this.position.clone().add(this._bulletOffset), this._tile.row);
   }
 
@@ -95,7 +104,7 @@ export class Pumpkin extends Group {
       .start();
   }
 
-  public powerUp(): void {
+  public powerUp(): boolean {
     if (this.scene.battleManager.money > 0 && this._shootDelay > 0.25) {
       this.scene.battleManager.money--;
       Interface.setMoney(this.scene.battleManager.money);
@@ -107,6 +116,11 @@ export class Pumpkin extends Group {
       }
       const red = this._shootDelay / 1.5;
       this.add(new Particles(new Color(red, 1 - red, 1 - red)));
+      return true;
     }
+  }
+
+  public maxPowerUp(): void {
+    while (this.powerUp() === true);
   }
 }
