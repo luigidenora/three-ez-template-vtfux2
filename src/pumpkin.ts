@@ -122,6 +122,6 @@ export class Pumpkin extends Group {
   }
 
   public changeScale(value: number): void {
-    this.tween('scale').to(200, { scale: value }, { easing: 'linear' }).start();
+    this.tween(`scale_${this.id}`).to(200, { scale: value }, { easing: 'linear' }).start();
   }
 }
