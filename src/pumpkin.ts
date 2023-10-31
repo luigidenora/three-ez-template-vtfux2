@@ -57,7 +57,8 @@ export class Pumpkin extends Group {
       });
     } else {
       const material1 = ((this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
-      const material2 = ((this.children[0].children[1] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
+      const material2 = ((this.children[0].children[1].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
+      const material3 = ((this.children[0].children[1].children[1] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
       (this.children[0].children[0] as SkinnedMesh).material = material1;
       (this.children[0].children[1] as SkinnedMesh).material = material2;
       material1.transparent = material2.transparent = true;
@@ -67,6 +68,7 @@ export class Pumpkin extends Group {
         const color = this.scene.battleManager.money === 0 ? 'red' : 'black';
         material1.emissive.set(color);
         material2.emissive.set(color);
+        material3.emissive.set(color);
       });
     }
   }
@@ -81,8 +83,9 @@ export class Pumpkin extends Group {
 
   public setMaterialVisibility(value: boolean): void {
     const material1 = (this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial;
-    const material2 = (this.children[0].children[1] as SkinnedMesh).material as MeshPhysicalMaterial;
-    material1.opacity = material2.opacity = value ? 0.3 : 0;
+    const material2 = ((this.children[0].children[1].children[0] as SkinnedMesh).material as MeshPhysicalMaterial);
+    const material3 = ((this.children[0].children[1].children[1] as SkinnedMesh).material as MeshPhysicalMaterial);
+    material1.opacity = material2.opacity = material3.opacity = value ? 0.3 : 0;
   }
 
   public die(): void {
@@ -107,9 +110,10 @@ export class Pumpkin extends Group {
       this.changeScale(2.5 + (2 - this._shootDelay + 0.25) * 2);
       if (this._shootDelay === 0.25) {
         this.children[0].children[0].cursor = 'not-allowed';
-        this.children[0].children[1].cursor = 'not-allowed';
+        this.children[0].children[1].children[0].cursor = 'not-allowed';
+        this.children[0].children[1].children[1].cursor = 'not-allowed';
         this._tile.cursor = 'not-allowed';
-      }
+      } 
       const red = this._shootDelay / 1.5;
       this.add(new Particles(new Color(red, 1 - red, 1 - red)));
       return true;
