@@ -4,20 +4,21 @@ import { Ghost } from './ghost';
 import { Interface } from './interface';
 import { Pumpkin } from './pumpkin';
 import { Scene } from './scene';
+import { AudioUtils } from './utils/audioUtils';
 
 export class BattleManager {
   public bullets: Bullet[] = [];
   public ghosts: Ghost[][] = [];
   public pumpkin: Pumpkin[][] = [];
   public score = 0;
-  public money = 3; // 2 start (-1 for starting pumpkin)
+  public money = 4; // 2 start (-1 for starting pumpkin)
   private _temp = new Vector3();
   private _direction = new Vector3();
   private _direction2 = new Vector3();
   private _ray = new Ray();
   private _target = new Vector3();
   private _elapsedTime = 0;
-  private _spawnRate = 2;
+  private _spawnRate = 1;
   private _spawnedCount = 0;
   private _difficulty = 1;
 
@@ -43,8 +44,8 @@ export class BattleManager {
       const row = Math.floor(Math.random() * 10);
       this._scene.addGhost(row, this._difficulty);
       this._spawnedCount++;
-      this._spawnRate = Math.max(0.5, this._spawnRate - 0.02);
-      if (this._spawnedCount % 20 === 0) this._difficulty++;
+      this._spawnRate = Math.max(0.33, this._spawnRate - 0.01);
+      if (this._spawnedCount % 25 === 0) this._difficulty++;
     }
   }
 
@@ -87,19 +88,20 @@ export class BattleManager {
       if (collisionIndex !== undefined) {
         this.removeBullet(i);
         const ghost = this.ghosts[bullet.row][collisionIndex];
-        ghost.hitSound.play();
+        !ghost.hitSound.isPlaying && ghost.hitSound.play();
         if (--ghost.health === 0) {
           this.score++;
           Interface.setScore(this.score);
           this.money++;
           Interface.setMoney(this.money);
-          this._scene.timeScale += 0.01;
+          this._scene.timeScale += 0.005;
+          AudioUtils.mainThemeAudio.setPlaybackRate(1 + (this._scene.timeScale - 1) / 5);
           ghost.die();
           this.removeGhost(bullet.row, collisionIndex);
         }
       } else {
         bullet.position.copy(newPosition);
-        if (bullet.position.x > 8) {
+        if (bullet.position.x > 9) {
           this.removeBullet(i);
         }
       }

@@ -13,6 +13,7 @@ GLTFUtils.preload().then(() => {
 });
 
 (window as any).start = function (): void {
+  AudioUtils.mainThemeAudio.setVolume(0.1);
   const scene = new Scene();
   const main = new Main({ showStats: false, rendererParameters: { antialias: true } });
   const view = main.createView({ scene, camera: scene.camera });

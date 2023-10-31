@@ -18,6 +18,7 @@ export class Pumpkin extends Group {
   private _elapsedTime = 0;
   private _isDead = false;
   private _temp = new Vector3();
+  private _cost = 1; 
 
   constructor(private _isInput = false, private _tile?: Tile) {
     super();
@@ -77,7 +78,7 @@ export class Pumpkin extends Group {
   private shoot(): void {
     this._shootAction.stop();
     this._shootAction.play();
-    this.spitSound.play();
+    !this.spitSound.isPlaying && this.spitSound.play();
     const bulletOffset = this._temp.copy(this._bulletOffset).multiplyScalar(this.scale.x);
     this.scene.shoot(this.position.clone().add(bulletOffset), this._tile.row, this.scale.x);
   }
@@ -104,12 +105,13 @@ export class Pumpkin extends Group {
   }
 
   public powerUp(): boolean {
-    if (this.scene.battleManager.money > 0 && this._shootDelay > 0.20) {
-      this.scene.battleManager.money--;
+    if (this.scene.battleManager.money >= this._cost && this._shootDelay > 0.25) {
+      this.scene.battleManager.money -= this._cost;
+      this._cost += 2;
       Interface.setMoney(this.scene.battleManager.money);
-      this._shootDelay = Math.max(0.20, this._shootDelay - 0.33);
-      this.changeScale(2.5 + (2 - this._shootDelay + 0.20) * 2);
-      if (this._shootDelay === 0.20) {
+      this._shootDelay = Math.max(0.25, this._shootDelay - 0.5);
+      this.changeScale(2.5 + (2 - this._shootDelay + 0.25) * 2);
+      if (this._shootDelay === 0.25) {
         this.children[0].children[0].cursor = 'not-allowed';
         this.children[0].children[1].children[0].cursor = 'not-allowed';
         this.children[0].children[1].children[1].cursor = 'not-allowed';
