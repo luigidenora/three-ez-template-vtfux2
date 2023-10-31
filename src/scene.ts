@@ -20,9 +20,9 @@ export class Scene extends SceneBase {
     const origin = new Vector3();
 
     this.background = new Color(0x092409);
-    const ambientLight = new AmbientLight('white', 0.3);
-    const dirLight = new DirectionalLight(0x0e23ff, 2);
-    const dirLight2 = new DirectionalLight(0xffb6a9, 2);
+    const ambientLight = new AmbientLight('white', 1.5);
+    const dirLight = new DirectionalLight(0x0e23ff, 10);
+    const dirLight2 = new DirectionalLight(0xffb6a9, 10);
     dirLight.position.setFromSphericalCoords(100, Math.PI / 3, 0);
     dirLight2.position.setFromSphericalCoords(100, Math.PI / 3, Math.PI / 2);
 
