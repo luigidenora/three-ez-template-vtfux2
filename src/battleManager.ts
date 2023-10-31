@@ -8,13 +8,17 @@ export class BattleManager {
   public bullets: Bullet[] = [];
   public ghosts: Ghost[][] = [];
   public pumpkin: Pumpkin[][] = [];
+  public score = 0;
+  public money = 4; // 3 start (-1 for starting pumpkin)
   private _temp = new Vector3();
   private _direction = new Vector3();
   private _direction2 = new Vector3();
   private _ray = new Ray();
   private _target = new Vector3();
   private _elapsedTime = 0;
-  private _spawnRate = 3;
+  private _spawnRate = 2;
+  private _spawnedCount = 0;
+  private _difficulty = 1;
 
   constructor(private _scene: Scene) {
     for (let i = 0; i < 10; i++) {
@@ -33,7 +37,11 @@ export class BattleManager {
     this._elapsedTime += delta;
     if (this._elapsedTime > this._spawnRate) {
       this._elapsedTime -= this._spawnRate;
-      this._scene.addGhost(Math.floor(Math.random() * 10));
+      const row = Math.floor(Math.random() * 10);
+      this._scene.addGhost(row, this._difficulty);
+      this._spawnedCount++;
+      this._spawnRate = Math.max(0.5, this._spawnRate - 0.02);
+      if (this._spawnedCount % 20 === 0) this._difficulty++;
     }
   }
 
@@ -77,8 +85,11 @@ export class BattleManager {
         this.removeBullet(i);
         const ghost = this.ghosts[bullet.row][collisionIndex];
         ghost.hitSound.play();
-        if (--ghost.life === 0) {
-          this.ghosts[bullet.row][collisionIndex].die();
+        if (--ghost.health === 0) {
+          this.score++;
+          this.money++;
+          this._scene.timeScale += 0.01;
+          ghost.die();
           this.removeGhost(bullet.row, collisionIndex);
         }
       } else {

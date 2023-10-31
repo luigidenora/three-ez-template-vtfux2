@@ -7,11 +7,13 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
   declare parent: Grid;
   declare scene: Scene;
   public isBusy = false;
+  public pumpkin: Pumpkin;
 
   constructor(public row: number, public col: number) {
     super(new PlaneGeometry(1, 1), new MeshLambertMaterial({ transparent: true, opacity: 0.4, color: 'gray' }));
     this.position.set(col - 5 + 0.5, 0, row - 5 + 0.5);
     this.rotateX(Math.PI / -2);
+    this.cursor = 'cell';
 
     this.on('pointerenter', (e) => {
       if (this.isBusy) {
@@ -19,8 +21,8 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
       } else {
         this.material.color.set('yellow');
         this.parent.inputPumpkin.position.copy(this.position);
+        this.parent.inputPumpkin.setMaterialVisibility(true);
       }
-      this.parent.inputPumpkin.setMaterialVisibility(true);
     });
 
     this.on('pointerleave', (e) => {
@@ -29,11 +31,16 @@ export class Tile extends Mesh<PlaneGeometry, MeshLambertMaterial> {
     });
 
     this.on('click', (e) => {
-      if (this.isBusy) return;
-      this.isBusy = true;
-      this.parent.inputPumpkin.setMaterialVisibility(false);
-      this.material.color.set('red');
-      this.scene.addPumpkin(this);
+      if (this.isBusy) {
+        this.pumpkin.powerUp();
+      } else if (this.scene.battleManager.money > 0) {
+        this.scene.battleManager.money--;
+        this.isBusy = true;
+        this.material.color.set('red');
+        this.pumpkin = this.scene.addPumpkin(this);
+        this.parent.inputPumpkin.setMaterialVisibility(false);
+        this.cursor = 'pointer';
+      }
     });
   }
 }

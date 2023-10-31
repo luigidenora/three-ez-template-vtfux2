@@ -9,16 +9,14 @@ AudioUtils.init();
 Interface.init();
 
 GLTFUtils.preload().then(() => {
-
-    
     const scene = new Scene();
-    
     const main = new Main();
-    main.createView({ scene, camera: scene.camera });
+    const view = main.createView({ scene, camera: scene.camera });
     
-    (window as any).main = main;
-
-    // Interface.loaded();
+    scene.addEventListener('gameOver', (event: any) => {
+        view.visible = false;
+        console.log(event.win);
+    });
 });
 
 

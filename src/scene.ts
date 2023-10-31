@@ -16,18 +16,15 @@ export class Scene extends SceneBase {
 
   constructor() {
     super();
+
     const origin = new Vector3();
 
     this.background = new Color(0x092409);
-
     const ambientLight = new AmbientLight('white', 0.3);
     const dirLight = new DirectionalLight(0x0e23ff, 2);
     const dirLight2 = new DirectionalLight(0xffb6a9, 2);
     dirLight.position.setFromSphericalCoords(100, Math.PI / 3, 0);
     dirLight2.position.setFromSphericalCoords(100, Math.PI / 3, Math.PI / 2);
-
-    const helper = new DirectionalLightHelper(dirLight2);
-    this.add(helper);
 
     this.add(ambientLight, dirLight, dirLight2, this.grid, this.island);
 
@@ -35,23 +32,24 @@ export class Scene extends SceneBase {
     this.camera.lookAt(origin);
 
     this.grid.tiles[5][0].trigger('click'); // spawn pumpkin
-    this.addGhost(5);
+    this.addGhost(5, 1);
 
     this.on('afteranimate', (e) => {
       this.battleManager.update(e.delta);
     });
   }
 
-  public addPumpkin(tile: Tile): void {
+  public addPumpkin(tile: Tile): Pumpkin {
     const pumpkin = new Pumpkin(false, tile);
     pumpkin.position.copy(tile.position);
     this.add(pumpkin);
     pumpkin.boundingBox.setFromObject(pumpkin);
     this.battleManager.pumpkin[tile.row].push(pumpkin);
+    return pumpkin;
   }
 
-  public addGhost(row: number): void {
-    const ghost = new Ghost(row, 2);
+  public addGhost(row: number, health: number): void {
+    const ghost = new Ghost(row, health);
     this.add(ghost);
     this.battleManager.ghosts[row].push(ghost);
   }
@@ -60,5 +58,9 @@ export class Scene extends SceneBase {
     const bullet = new Bullet(origin, row);
     this.add(bullet);
     this.battleManager.bullets.push(bullet);
+  }
+
+  public gameOver(win: boolean): void {
+    this.dispatchEvent<any>({ type: 'gameOver', win });
   }
 }

@@ -1,9 +1,10 @@
-import { AnimationAction, Box3, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3, Audio } from 'three';
+import { AnimationAction, Box3, Euler, Group, MeshPhysicalMaterial, SkinnedMesh, Vector3, Audio, Color } from 'three';
 import { Bullet } from './bullet';
 import { GLTFUtils, Models } from './utils/gltfUtils';
 import { Tile } from './tile';
 import { Scene } from './scene';
 import { AudioUtils } from './utils/audioUtils';
+import { Particles } from './particles';
 
 export class Pumpkin extends Group {
   declare scene: Scene;
@@ -25,11 +26,11 @@ export class Pumpkin extends Group {
     this.spitSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spitSoundBuffer);
     this.punchSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.punchSoundBuffer);
     this.spawnSound = new Audio(AudioUtils.audioListener).setBuffer(AudioUtils.spawnSoundBuffer);
-    this.spitSound.setVolume(0.8);
-    this.punchSound.setVolume(0.2);
-    this.spawnSound.setVolume(0.5);
+    this.spitSound.setVolume(0.3);
+    this.punchSound.setVolume(0.1);
+    this.spawnSound.setVolume(0.25);
     this.spawnSound.play();
-    this.interceptByRaycaster = false;
+    this.interceptByRaycaster = !_isInput;
   }
 
   private load(): void {
@@ -47,6 +48,10 @@ export class Pumpkin extends Group {
         }
         result.mixer.update(e.delta);
       });
+
+      this.on('click', () => {
+        this.powerUp();
+      });
     } else {
       const material1 = ((this.children[0].children[0] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
       const material2 = ((this.children[0].children[1] as SkinnedMesh).material as MeshPhysicalMaterial).clone();
@@ -54,6 +59,12 @@ export class Pumpkin extends Group {
       (this.children[0].children[1] as SkinnedMesh).material = material2;
       material1.transparent = material2.transparent = true;
       material1.opacity = material2.opacity = 0.3;
+
+      this.on('animate', () => {
+        const color = this.scene.battleManager.money === 0 ? 'red' : 'black';
+        material1.emissive.set(color);
+        material2.emissive.set(color);
+      });
     }
   }
 
@@ -78,7 +89,18 @@ export class Pumpkin extends Group {
       .call(() => {
         this.removeFromParent();
         this._tile.isBusy = false;
+        this._tile.pumpkin = undefined;
+        this._tile.cursor = 'pointer';
       })
       .start();
+  }
+
+  public powerUp(): void {
+    if (this.scene.battleManager.money > 0 && this._shootDelay > 0.25) {
+      this.scene.battleManager.money--;
+      this._shootDelay = Math.max(0.25, this._shootDelay - 0.5);
+      const red = this._shootDelay / 1.5;
+      this.add(new Particles(new Color(red, 1 - red, 1 - red)));
+    }
   }
 }
