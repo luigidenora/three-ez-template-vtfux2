@@ -13,18 +13,19 @@ h1.title {
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  flex: 1;
   position: absolute;
   left: 1em;
   top: 0;
   bottom: 0;
   right: 0;
   line-height: 0.4em;
-  text-align: center;
-  line-break: strict;
   font-size: 10em;
-  margin: 0;
-  padding: calc(17% - 0.004vw);
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  pointer-events: none;
 }
 
 .title .pumpkin {
@@ -51,41 +52,84 @@ h1.title {
   bottom: 0;
   right: 0;
   background-color: #092409;
+  transition: opacity ease-in 500ms;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding-top: 12em;
 }
 
+.scene-container.hidden {
+  pointer-events: none;
+  opacity: 0;
+}
 
- button.action {
+button.action {
   margin: 0;
   border: none;
   background: transparent;
-  font-size: 0.4em;
+  font-size: 3em;
   font-family: HalloWitchZ;
   color: rgba(255, 166, 0, 0.5);
   line-height: 1.6;
- }
+  max-height: 1em;
+  outline: none;
+}
 
- button.action:hover {
+button.action:hover {
   font-family: HalloWitchZ;
   background-image: linear-gradient(orange, rgb(255, 0, 255));
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
- }
+}
 
- 
- button.action:active {
+button.action:active {
   transform: scale(0.9);
- }
-
-.loading-bar {
-  flex: 0;
-  top: 50%;
-  width: 100%;
-  height: 40px;
-  background: orange;
+}
+.action-container {
+  padding: 4em;
 }
 
 body {
   font-size: calc(15px + 0.390625vw);
   background: black;
+}
+
+:modal {
+  background-color: #204120;
+  border: 14px solid #092409;
+  border-radius: 47px;
+  margin-right: 1em;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  overflow: hidden;
+}
+
+dialog:-internal-dialog-in-top-layer::backdrop {
+  position: fixed;
+  inset: 0px;
+  background: rgba(0, 0, 0, 0.856);
+}
+
+.info-description {
+  font-family: monospace;
+  color: white;
+}
+
+.loader {
+  width: fit-content;
+  font-family: monospace;
+  font-size: 30px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(4) infinite;
+}
+.loader:before {
+  content: 'Loading...';
+  color: white;
+}
+@keyframes l4 {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
 }
