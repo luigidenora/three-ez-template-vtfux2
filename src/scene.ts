@@ -19,7 +19,7 @@ export class Scene extends SceneBase {
 
     const origin = new Vector3();
 
-    this.background = new Color(0x092409);
+    this.background = new Color(0x2d1720);
     const ambientLight = new AmbientLight('white', 1.5);
     const dirLight = new DirectionalLight(0x0e23ff, 10);
     const dirLight2 = new DirectionalLight(0xffb6a9, 10);

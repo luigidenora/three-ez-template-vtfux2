@@ -52,7 +52,8 @@ h1.title {
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #092409;
+  background-color: #2d1720;
+  background: url(/bg.png) no-repeat center top;
   transition: background ease-in 500ms;
   justify-content: center;
   align-content: center;
@@ -61,7 +62,7 @@ h1.title {
 }
 
 .game-mode.scene-container {
-  background-color: transparent;
+  background: transparent;
   pointer-events: none;
 }
 .game-mode button.smart-button {
@@ -111,7 +112,7 @@ body {
 
 :modal {
   background-color: #204120;
-  border: 14px solid #092409;
+  border: 14px solid #2d1720;
   border-radius: 47px;
   margin-right: 1em;
   margin-left: 1em;
